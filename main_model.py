@@ -6,7 +6,7 @@ from PyQt5.QtCore import QThread, pyqtSignal
 class SerialReaderThread(QThread):
     data_received = pyqtSignal(str)
 
-    def __init__(self, port, baudrate, timeout):
+    def __init__(self, port=" ", baudrate=0, timeout=0):
         super().__init__()
         self.port = port
         self.baudrate = baudrate

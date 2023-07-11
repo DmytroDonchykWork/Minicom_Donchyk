@@ -2,8 +2,9 @@ from main_model import SerialReaderThread
 
 
 class Controller:
-    def __init__(self, view):
+    def __init__(self, view, serial_reader_thread):
         self.view = view
+        self.serial_reader_thread = serial_reader_thread
 
     def start_serial_reading(self):
         # It'll be better to make ports choose by comboBox, as I did with a baudrate, but I'd like to make various items
@@ -28,11 +29,10 @@ class Controller:
         self.view.serial_reader_thread.start()
 
     def closeEvent(self, event):
-        if self.view.serial_reader_thread is not None and self.view.serial_reader_thread.isRunning():
+        if self.serial_reader_thread is not None and self.view.serial_reader_thread.isRunning():
             self.view.serial_reader_thread.terminate()
             self.view.serial_reader_thread.wait()
         event.accept()
 
     def send_command_to_serial(self):
-        command = self.view.lineEdit_command_line.text()
-        self.view.serial_reader_thread.send_command(command)
+        self.view.send_command_to_serial()
